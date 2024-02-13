@@ -400,27 +400,15 @@ export function fetchBottlesTableColumnDefs(
 }
 
 export const filterableColumns: DataTableFilterableColumn<Bottle>[] = [
-  // {
-  //   id: "rack",
-  //   title: "RRRR",
-  //   // options: tasks.status.enumValues.map((status) => ({
-  //   //   label: status[0]?.toUpperCase() + status.slice(1),
-  //   //   value: status,
-  //   // })),
-  //   options: [
-  //     { label: "Active", value: "active" },
-  //     { label: "Inactive", value: "inactive" },
-  //     { label: "Pending", value: "pending" },
-  //   ],
-  // },
-  // {
-  //   id: "vintage",
-  //   title: "Priority",
-  //   options: tasks.priority.enumValues.map((priority) => ({
-  //     label: priority[0]?.toUpperCase() + priority.slice(1),
-  //     value: priority,
-  //   })),
-  // },
+  {
+    id: "rack",
+    title: "Rack",
+    options: [
+      { label: "GL1", value: "GL1" },
+      { label: "GF", value: "GF" },
+      { label: "Garage", value: "Garage" },
+    ],
+  },
 ]
 
 export const searchableColumns: DataTableSearchableColumn<Bottle>[] = [

@@ -8,6 +8,7 @@ import { useDataTable } from "@/hooks/use-data-table"
 import { DataTable } from "@/components/data-table/data-table"
 
 import { type getBottles } from "../_lib/b_queries"
+import { TasksTableFloatingBarContent } from "./bottles-table-action"
 // import {
 //   deleteSelectedRows,
 //   TasksTableFloatingBarContent,
@@ -15,7 +16,7 @@ import { type getBottles } from "../_lib/b_queries"
 import {
   fetchBottlesTableColumnDefs,
   // fetchTasksTableColumnDefs,
-  // filterableColumns,
+  filterableColumns,
   searchableColumns,
 } from "./bottles-table-column-def"
 
@@ -40,7 +41,7 @@ export function BottlesTable({ bottlesPromise }: TasksTableProps) {
     columns,
     pageCount,
     searchableColumns,
-    // filterableColumns,
+    filterableColumns,
   })
 
   return (
@@ -48,8 +49,8 @@ export function BottlesTable({ bottlesPromise }: TasksTableProps) {
       dataTable={dataTable}
       columns={columns}
       searchableColumns={searchableColumns}
-      // filterableColumns={filterableColumns}
-      // floatingBarContent={TasksTableFloatingBarContent(dataTable)}
+      filterableColumns={filterableColumns}
+      floatingBarContent={TasksTableFloatingBarContent(dataTable)}
       // deleteRowsAction={(event) => deleteSelectedRows(dataTable, event)}
     />
   )

@@ -1,6 +1,7 @@
 import * as React from "react"
 import { unstable_noStore as noStore } from "next/cache"
 import { tasks, type Task } from "@/db/schema"
+import { Bottle } from "@prisma/client"
 import { ArrowUpIcon, CheckCircledIcon, TrashIcon } from "@radix-ui/react-icons"
 import { SelectTrigger } from "@radix-ui/react-select"
 import { type Table } from "@tanstack/react-table"
@@ -105,73 +106,76 @@ import {
 //   )
 // }
 
-export function TasksTableFloatingBarContent(table: Table<Task>) {
+export function TasksTableFloatingBarContent(table: Table<Bottle>) {
   return (
     <div className="justify-between gap-2 align-middle">
-      TasksTableFloatingBarContent
+      {/* <Select
+        onValueChange={(value) => updateTasksStatus({ table, status: value })}
+      >
+        <SelectTrigger asChild>
+          <Button
+            aria-label="Delete selected rows"
+            title="Status"
+            variant="ghost"
+            size="icon"
+            className="size-7 data-[state=open]:bg-accent data-[state=open]:text-accent-foreground"
+          >
+            <CheckCircledIcon className="size-4" aria-hidden="true" />
+          </Button>
+        </SelectTrigger>
+        <SelectContent align="center">
+          <SelectGroup>
+            {tasks.status.enumValues.map((status) => (
+              <SelectItem key={status} value={status} className="capitalize">
+                {status}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+      <Select
+        onValueChange={(value) =>
+          updateTasksPriority({ table, priority: value })
+        }
+      >
+        <SelectTrigger asChild>
+          <Button
+            title="Priority"
+            variant="ghost"
+            size="icon"
+            className="size-7 data-[state=open]:bg-accent data-[state=open]:text-accent-foreground"
+          >
+            <ArrowUpIcon className="size-4" aria-hidden="true" />
+          </Button>
+        </SelectTrigger>
+        <SelectContent align="center">
+          <SelectGroup>
+            {tasks.priority.enumValues.map((priority) => (
+              <SelectItem
+                key={priority}
+                value={priority}
+                className="capitalize"
+              >
+                {priority}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select> */}
+      <Button
+        title="Delete"
+        variant="ghost"
+        size="icon"
+        className="size-7"
+        onClick={(event) => {
+          table.toggleAllPageRowsSelected(false)
+          console.log("DELETE")
+          // deleteSelectedRows?.({ table, event })
+        }}
+      >
+        <TrashIcon className="size-4" aria-hidden="true" />
+        <span className="sr-only">Delete</span>
+      </Button>
     </div>
-
-    // <div className="justify-between gap-2 align-middle">
-    //   <Select onValueChange={(value) => updateTasksStatus(table, value)}>
-    //     <SelectTrigger asChild>
-    //       <Button
-    //         aria-label="Delete selected rows"
-    //         title="Status"
-    //         variant="ghost"
-    //         size="icon"
-    //         className="size-7 data-[state=open]:bg-accent data-[state=open]:text-accent-foreground"
-    //       >
-    //         <CheckCircledIcon className="size-4" aria-hidden="true" />
-    //       </Button>
-    //     </SelectTrigger>
-    //     <SelectContent align="center">
-    //       <SelectGroup>
-    //         {tasks.status.enumValues.map((status) => (
-    //           <SelectItem key={status} value={status} className="capitalize">
-    //             {status}
-    //           </SelectItem>
-    //         ))}
-    //       </SelectGroup>
-    //     </SelectContent>
-    //   </Select>
-    //   <Select onValueChange={(value) => updateTasksPriority(table, value)}>
-    //     <SelectTrigger asChild>
-    //       <Button
-    //         title="Priority"
-    //         variant="ghost"
-    //         size="icon"
-    //         className="size-7 data-[state=open]:bg-accent data-[state=open]:text-accent-foreground"
-    //       >
-    //         <ArrowUpIcon className="size-4" aria-hidden="true" />
-    //       </Button>
-    //     </SelectTrigger>
-    //     <SelectContent align="center">
-    //       <SelectGroup>
-    //         {tasks.priority.enumValues.map((priority) => (
-    //           <SelectItem
-    //             key={priority}
-    //             value={priority}
-    //             className="capitalize"
-    //           >
-    //             {priority}
-    //           </SelectItem>
-    //         ))}
-    //       </SelectGroup>
-    //     </SelectContent>
-    //   </Select>
-    //   <Button
-    //     title="Delete"
-    //     variant="ghost"
-    //     size="icon"
-    //     className="size-7"
-    //     onClick={(event) => {
-    //       table.toggleAllPageRowsSelected(false)
-    //       deleteSelectedRows?.(table, event)
-    //     }}
-    //   >
-    //     <TrashIcon className="size-4" aria-hidden="true" />
-    //     <span className="sr-only">Delete</span>
-    //   </Button>
-    // </div>
   )
 }

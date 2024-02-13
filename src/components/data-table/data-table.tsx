@@ -160,7 +160,10 @@ export function DataTable<TData, TValue>({
           <DataTableFloatingBar table={dataTable}>
             {floatingBarContent}
           </DataTableFloatingBar>
-        ) : null}
+        ) : (
+          // ) : null}
+          <div>null floatingBarContent</div>
+        )}
       </div>
     </div>
   )
