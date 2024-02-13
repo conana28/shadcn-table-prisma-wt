@@ -11,31 +11,45 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model tasks {
-  id       String   @id @default(uuid())
-  code     String   @unique
-  title    String
-  status   Status   @default(todo)
-  label    Label    @default(bug)
-  priority Priority @default(low)
+model Wine {
+  id         Int      @id @default(autoincrement())
+  producer   String
+  wineName   String
+  country    String
+  region     String
+  subRegion  String?
+  type       String?
+  notes      String?
+  bottle     Bottle[]
+  notesArray Note[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
-enum Status {
-  todo
-  in_progress
-  done
-  canceled
+model Bottle {
+  id        Int       @id @default(autoincrement())
+  vintage   Int       @default(0)
+  rack      String
+  shelf     String?
+  cost      Int?
+  consume   DateTime?
+  occasion  String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  wineId    Int
+  wine      Wine      @relation(fields: [wineId], references: [id])
 }
 
-enum Label {
-  bug
-  feature
-  enhancement
-  documentation
-}
-
-enum Priority {
-  low
-  medium
-  high
+model Note {
+  id        Int      @id @default(autoincrement())
+  vintage   Int      @default(0)
+  author    String
+  noteText  String?
+  rating    String
+  drinkFrom String?
+  drinkTo   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  wineId    Int
+  wine      Wine     @relation(fields: [wineId], references: [id])
 }

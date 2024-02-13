@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache"
 import { faker } from "@faker-js/faker"
-import { Label, Priority, Status, tasks } from "@prisma/client"
+// import { Label, Priority, Status, tasks } from "@prisma/client"
 import type { z } from "zod"
 
 // export async function seedTasks({
@@ -43,98 +43,58 @@ import type { z } from "zod"
 import prisma from "@/lib/prisma"
 import { createId } from "@/lib/utils"
 
-import type {
-  updateTaskLabelSchema,
-  updateTaskPrioritySchema,
-  updateTaskStatusSchema,
-} from "./validations"
+// import type {
+//   updateTaskLabelSchema,
+//   updateTaskPrioritySchema,
+//   updateTaskStatusSchema,
+// } from "./validations"
 
-export async function seedTasks({
-  count = 100,
-  reset = false,
-}: {
-  count?: number
-  reset?: boolean
-}) {
-  const allTasks: tasks[] = []
+// export async function updateTaskPriority({
+//   id,
+//   priority,
+// }: z.infer<typeof updateTaskPrioritySchema>) {
+//   console.log("updatePriorityAction", id, priority)
 
-  for (let i = 0; i < count; i++) {
-    allTasks.push({
-      id: createId(),
-      code: `TASK-${faker.number.int({ min: 1000, max: 9999 })}`,
-      title: faker.hacker
-        .phrase()
-        .replace(/^./, (letter) => letter.toUpperCase()),
-      status:
-        faker.helpers.shuffle<tasks["status"]>(Object.values(Status))[0] ??
-        "todo",
-      label:
-        faker.helpers.shuffle<tasks["label"]>(Object.values(Label))[0] ??
-        "bug",
-      priority:
-        faker.helpers.shuffle<tasks["priority"]>(Object.values(Priority))[0] ??
-        "low",
-    })
-  }
+//   await prisma.tasks.update({
+//     where: { id },
+//     data: { priority },
+//   })
 
-  if (reset) {
-    await prisma.tasks.deleteMany()
-  }
+//   revalidatePath("/")
+// }
 
-  console.log("📝 Inserting tasks", allTasks.length)
+// export async function updateTaskLabel({
+//   id,
+//   label,
+// }: z.infer<typeof updateTaskLabelSchema>) {
+//   console.log("updatePriorityAction", id, label)
 
-  for (const task of allTasks) {
-    await prisma.tasks.create({ data: task })
-  }
-}
+//   await prisma.tasks.update({
+//     where: { id },
+//     data: { label },
+//   })
 
-export async function updateTaskPriority({
-  id,
-  priority,
-}: z.infer<typeof updateTaskPrioritySchema>) {
-  console.log("updatePriorityAction", id, priority)
+//   revalidatePath("/")
+// }
 
-  await prisma.tasks.update({
-    where: { id },
-    data: { priority },
-  })
+// export async function updateTaskStatus({
+//   id,
+//   status,
+// }: { id: string, status: 'todo' | 'in_progress' | 'done' | 'canceled' }) {
+//   // console.log("updatePriorityAction", id, status)
+//   await prisma.tasks.update({
+//     where: { id },
+//     data: { status },
+//   })
 
-  revalidatePath("/")
-}
+//   revalidatePath("/")
+// }
 
-export async function updateTaskLabel({
-  id,
-  label,
-}: z.infer<typeof updateTaskLabelSchema>) {
-  console.log("updatePriorityAction", id, label)
+// export async function deleteTask(input: { id: string }) {
+//   await prisma.tasks.delete({ where: { id: input.id } })
 
-  await prisma.tasks.update({
-    where: { id },
-    data: { label },
-  })
+//   // Create a new task for the deleted one
+//   // await seedTasks({ count: 1 })
 
-  revalidatePath("/")
-}
-
-export async function updateTaskStatus({
-  id,
-  status,
-}: { id: string, status: 'todo' | 'in_progress' | 'done' | 'canceled' }) {
-  // console.log("updatePriorityAction", id, status)
-  await prisma.tasks.update({
-    where: { id },
-    data: { status },
-  })
-
-  revalidatePath("/")
-}
-
-
-export async function deleteTask(input: { id: string }) {
-  await prisma.tasks.delete({ where: { id: input.id } })
-
-  // Create a new task for the deleted one
-  // await seedTasks({ count: 1 })
-
-  revalidatePath("/")
-}
+//   revalidatePath("/")
+// }

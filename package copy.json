@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "clean": "rm -rf node_modules && rm -rf .next",
     "build": "next build",
     "dev": "next dev",
     "start": "next start",
@@ -10,7 +11,16 @@
     "lint:fix": "next lint --fix",
     "typecheck": "tsc --noEmit",
     "format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
-    "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache"
+    "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
+    "check": "pnpm lint && pnpm typecheck && pnpm format:check",
+    "db:generate": "dotenv drizzle-kit generate:mysql",
+    "db:introspect": "dotenv drizzle-kit introspect:mysql",
+    "db:push": "dotenv drizzle-kit push:mysql",
+    "db:migrate": "dotenv tsx src/db/migrate.ts",
+    "db:drop-migration": "dotenv drizzle-kit drop --config=drizzle.config.ts",
+    "db:seed": "dotenv tsx src/db/seed.ts",
+    "db:studio": "dotenv drizzle-kit studio",
+    "shadcn:add": "pnpm dlx shadcn-ui@latest add"
   },
   "dependencies": {
     "@planetscale/database": "^1.14.0",
@@ -67,5 +77,6 @@
   },
   "ct3aMetadata": {
     "initVersion": "7.23.1"
-  }
+  },
+  "packageManager": "pnpm@8.6.12"
 }

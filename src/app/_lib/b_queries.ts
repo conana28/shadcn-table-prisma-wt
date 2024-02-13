@@ -1,7 +1,7 @@
 "use server"
 
 import { SearchParams } from "@/types"
-import { Priority, Prisma, Status } from "@prisma/client"
+import { Prisma } from "@prisma/client"
 
 import { filterColumn } from "@/lib/filter-column"
 import prisma from "@/lib/prisma"
@@ -16,11 +16,13 @@ type Task = {
   priority: "low" | "medium" | "high"
 }
 
-type tasksWhereInput = Prisma.tasksWhereInput
+type bottlesWhereInput = Prisma.BottleWhereInput
 
-export async function getTasks(searchParams: SearchParams) {
+export async function getBottles(searchParams: SearchParams) {
+  console.log("GetBottle searchParams:", searchParams)
   try {
-    const { page, per_page, sort, title, code, status, priority, operator } =
+    // const { page, per_page, sort, title, code, status, priority, operator } =
+    const { page, per_page, sort, vintage, rack, shelf, operator } =
       searchParamsSchema.parse(searchParams)
 
     console.log("sort:", sort)
@@ -33,52 +35,75 @@ export async function getTasks(searchParams: SearchParams) {
     const [column, order] = (sort?.split(".") as [
       keyof Task | undefined,
       "asc" | "desc" | undefined,
-    ]) ?? ["title", "desc"]
+    ]) ?? ["vintage", "asc"]
+    // const [column, order] = (sort?.split(".") as [
+    //   keyof Task | undefined,
+    //   "asc" | "desc" | undefined,
+    // ]) ?? ["title", "desc"]
 
-    const statuses = (status?.split(".") as Task["status"][]) ?? []
-    const priorities = (priority?.split(".") as Task["priority"][]) ?? []
+    // const statuses = (status?.split(".") as Task["status"][]) ?? []
+    // const priorities = (priority?.split(".") as Task["priority"][]) ?? []
 
-    function buildWhereClause({
-      code,
-      title,
-      statuses,
-      priorities,
-    }: {
-      title?: string
-      code?: string
-      statuses?: string[]
-      priorities?: string[]
-    }): tasksWhereInput | undefined {
-      const conditions: Array<tasksWhereInput> = []
+    // function buildWhereClause({
+    //   // code,
+    //   // title,
+    //   // statuses,
+    //   // priorities,
+    //   vintage,
+    //   rack,
+    //   shelf,
+    // }: {
+    //   vintage?: number
+    //   rack?: string
+    //   shelf?: string
 
-      if (title) {
-        conditions.push({ title: { contains: title } })
-      }
-      if (code) {
-        conditions.push({ code: { contains: code } })
-      }
-      if (statuses?.length ?? 0 > 0) {
-        const statusArray: Status[] = statuses as Status[] // Add type assertion here
-        conditions.push({ status: { in: statusArray } })
-      }
+    //   // title?: string
+    //   // code?: string
+    //   // statuses?: string[]
+    //   // priorities?: string[]
+    // }): bottlesWhereInput | undefined {
+    //   const conditions: Array<bottlesWhereInput> = []
 
-      if (priorities?.length ?? 0 > 0) {
-        const prioritesArray: Priority[] = priorities as Priority[] // Declare prioritesArray variable
-        conditions.push({ priority: { in: prioritesArray } })
-      }
-      console.log(conditions)
-      // Combine conditions with OR if any are present
-      return conditions.length > 0 ? { OR: conditions } : undefined
-    }
+    //   if (vintage) {
+    //     conditions.push({ vintage: { equals: vintage } })
+    //   }
+    //   if (rack) {
+    //     conditions.push({ rack: { contains: rack } })
+    //   }
+    //   if (shelf) {
+    //     conditions.push({ shelf: { contains: shelf } })
+    //   }
 
-    const whereClause = buildWhereClause({
-      code: code,
-      title: title,
-      statuses: statuses,
-      priorities: priorities,
-    })
+    //   // if (title) {
+    //   //   conditions.push({ title: { contains: title } })
+    //   // }
+    //   // if (code) {
+    //   //   conditions.push({ code: { contains: code } })
+    //   // }
+    //   // if (statuses?.length ?? 0 > 0) {
+    //   //   const statusArray: Status[] = statuses as Status[] // Add type assertion here
+    //   //   conditions.push({ status: { in: statusArray } })
+    //   // }
 
-    const data = await prisma.tasks.findMany({
+    //   console.log(conditions)
+    //   // Combine conditions with OR if any are present
+    //   return conditions.length > 0 ? { OR: conditions } : undefined
+    // }
+
+    // const whereClause = buildWhereClause({
+    //   vintage: vintage,
+    //   rack: rack,
+    //   shelf: shelf,
+
+    //   // code: code,
+    //   // title: title,
+    //   // statuses: statuses,
+    //   // priorities: priorities,
+    // })
+
+    const whereClause = {}
+
+    const data = await prisma.bottle.findMany({
       where: whereClause,
       orderBy: {
         [column ?? "id"]: order ?? "desc",
@@ -87,7 +112,7 @@ export async function getTasks(searchParams: SearchParams) {
       take: limit,
     })
 
-    const count = await prisma.tasks.count({
+    const count = await prisma.bottle.count({
       where: whereClause,
     })
 
