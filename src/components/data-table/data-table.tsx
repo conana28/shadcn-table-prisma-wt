@@ -84,6 +84,7 @@ export function DataTable<TData, TValue>({
   searchableColumns = [],
   filterableColumns = [],
   advancedFilter = false,
+  // advancedFilter = true,
   floatingBarContent,
   deleteRowsAction,
 }: DataTableProps<TData, TValue>) {

@@ -39,7 +39,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header"
 
-import { deleteTask, updateTaskLabel } from "../_lib/actions"
+// import { deleteTask, updateTaskLabel } from "../_lib/actions"
 
 // export function fetchTasksTableColumnDefs(
 //   isPending: boolean,
@@ -320,6 +320,15 @@ export function fetchBottlesTableColumnDefs(
       enableSorting: false,
       enableHiding: false,
     },
+    {
+      accessorKey: "id",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Bottle Id" />
+      ),
+      cell: ({ row }) => <div>{row.getValue("id")}</div>,
+      enableSorting: false,
+      enableHiding: false,
+    },
     // {
     //   id: "actions",
     //   cell: ({ row }) => (
@@ -390,32 +399,41 @@ export function fetchBottlesTableColumnDefs(
   ]
 }
 
-export const filterableColumns: DataTableFilterableColumn<Task>[] = [
-  {
-    id: "status",
-    title: "Status",
-    options: tasks.status.enumValues.map((status) => ({
-      label: status[0]?.toUpperCase() + status.slice(1),
-      value: status,
-    })),
-  },
-  {
-    id: "priority",
-    title: "Priority",
-    options: tasks.priority.enumValues.map((priority) => ({
-      label: priority[0]?.toUpperCase() + priority.slice(1),
-      value: priority,
-    })),
-  },
+export const filterableColumns: DataTableFilterableColumn<Bottle>[] = [
+  // {
+  //   id: "rack",
+  //   title: "RRRR",
+  //   // options: tasks.status.enumValues.map((status) => ({
+  //   //   label: status[0]?.toUpperCase() + status.slice(1),
+  //   //   value: status,
+  //   // })),
+  //   options: [
+  //     { label: "Active", value: "active" },
+  //     { label: "Inactive", value: "inactive" },
+  //     { label: "Pending", value: "pending" },
+  //   ],
+  // },
+  // {
+  //   id: "vintage",
+  //   title: "Priority",
+  //   options: tasks.priority.enumValues.map((priority) => ({
+  //     label: priority[0]?.toUpperCase() + priority.slice(1),
+  //     value: priority,
+  //   })),
+  // },
 ]
 
-export const searchableColumns: DataTableSearchableColumn<Task>[] = [
+export const searchableColumns: DataTableSearchableColumn<Bottle>[] = [
   {
-    id: "title",
-    title: "titles",
+    id: "vintage",
+    title: "vintage",
   },
   {
-    id: "code",
-    title: "codes",
+    id: "rack",
+    title: "rack",
+  },
+  {
+    id: "shelf",
+    title: "shelf",
   },
 ]

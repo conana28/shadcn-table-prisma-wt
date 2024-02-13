@@ -32,79 +32,62 @@ export async function getBottles(searchParams: SearchParams) {
     const perPageAsNumber = Number(per_page)
     const limit = isNaN(perPageAsNumber) ? 10 : perPageAsNumber
     const offset = fallbackPage > 0 ? (fallbackPage - 1) * limit : 0
-    const [column, order] = (sort?.split(".") as [
-      keyof Task | undefined,
-      "asc" | "desc" | undefined,
-    ]) ?? ["vintage", "asc"]
-    // const [column, order] = (sort?.split(".") as [
-    //   keyof Task | undefined,
-    //   "asc" | "desc" | undefined,
-    // ]) ?? ["title", "desc"]
+    // go through sort and see if it needs sorting
+    const [column, order] =
+      (sort?.split(".") as [
+        keyof Task | undefined,
+        "asc" | "desc" | undefined,
+      ]) ?? []
+    // ]) ?? ["vintage", "asc"]
 
     // const statuses = (status?.split(".") as Task["status"][]) ?? []
     // const priorities = (priority?.split(".") as Task["priority"][]) ?? []
 
-    // function buildWhereClause({
-    //   // code,
-    //   // title,
-    //   // statuses,
-    //   // priorities,
-    //   vintage,
-    //   rack,
-    //   shelf,
-    // }: {
-    //   vintage?: number
-    //   rack?: string
-    //   shelf?: string
+    function buildWhereClause({
+      vintage,
+      rack,
+      shelf,
+    }: {
+      vintage?: string
+      rack?: string
+      shelf?: string
+    }): bottlesWhereInput | undefined {
+      const conditions: Array<bottlesWhereInput> = []
 
-    //   // title?: string
-    //   // code?: string
-    //   // statuses?: string[]
-    //   // priorities?: string[]
-    // }): bottlesWhereInput | undefined {
-    //   const conditions: Array<bottlesWhereInput> = []
+      if (vintage) {
+        conditions.push({ vintage: { equals: parseInt(vintage) } })
+      }
+      if (rack) {
+        conditions.push({ rack: { contains: rack } })
+      }
+      if (shelf) {
+        conditions.push({ shelf: { contains: shelf } })
+      }
 
-    //   if (vintage) {
-    //     conditions.push({ vintage: { equals: vintage } })
-    //   }
-    //   if (rack) {
-    //     conditions.push({ rack: { contains: rack } })
-    //   }
-    //   if (shelf) {
-    //     conditions.push({ shelf: { contains: shelf } })
-    //   }
+      // if (statuses?.length ?? 0 > 0) {
+      //   const statusArray: Status[] = statuses as Status[] // Add type assertion here
+      //   conditions.push({ status: { in: statusArray } })
+      // }
 
-    //   // if (title) {
-    //   //   conditions.push({ title: { contains: title } })
-    //   // }
-    //   // if (code) {
-    //   //   conditions.push({ code: { contains: code } })
-    //   // }
-    //   // if (statuses?.length ?? 0 > 0) {
-    //   //   const statusArray: Status[] = statuses as Status[] // Add type assertion here
-    //   //   conditions.push({ status: { in: statusArray } })
-    //   // }
+      console.log(conditions)
+      // Combine conditions with AND / OR if any are present
+      // return conditions.length > 0 ? { OR: conditions } : undefined
+      return conditions.length > 0 ? { AND: conditions } : undefined
+    }
 
-    //   console.log(conditions)
-    //   // Combine conditions with OR if any are present
-    //   return conditions.length > 0 ? { OR: conditions } : undefined
-    // }
+    const whereClause = buildWhereClause({
+      vintage: vintage,
+      rack: rack,
+      shelf: shelf,
+      // statuses: statuses,
+      // priorities: priorities,
+    })
 
-    // const whereClause = buildWhereClause({
-    //   vintage: vintage,
-    //   rack: rack,
-    //   shelf: shelf,
-
-    //   // code: code,
-    //   // title: title,
-    //   // statuses: statuses,
-    //   // priorities: priorities,
-    // })
-
-    const whereClause = {}
+    // const whereClause = {}
 
     const data = await prisma.bottle.findMany({
       where: whereClause,
+      // if no column is provided, default to sorting by id/desc
       orderBy: {
         [column ?? "id"]: order ?? "desc",
       },

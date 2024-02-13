@@ -13,7 +13,7 @@ export const searchParamsSchema = z.object({
   // priority: z.string().optional(),
   operator: z.string().optional(),
 
-  vintage: z.number().optional(),
+  vintage: z.string().optional(),
   rack: z.string().optional(),
   shelf: z.string().optional(),
 })

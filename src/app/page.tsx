@@ -12,7 +12,7 @@ export interface IndexPageProps {
 }
 
 export default function IndexPage({ searchParams }: IndexPageProps) {
-  const tasksPromise = getBottles(searchParams)
+  const bottlesPromise = getBottles(searchParams)
 
   return (
     <Shell>
@@ -26,7 +26,7 @@ export default function IndexPage({ searchParams }: IndexPageProps) {
          * This is done because the table columns need to be memoized, and the `useDataTable` hook needs to be called in a client component.
          * By encapsulating the `DataTable` component within the `tasktableshell` component, we can ensure that the necessary logic and state management is handled correctly.
          */}
-        <BottlesTable tasksPromise={tasksPromise} />
+        <BottlesTable bottlesPromise={bottlesPromise} />
       </React.Suspense>
     </Shell>
   )
