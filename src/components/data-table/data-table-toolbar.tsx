@@ -32,7 +32,6 @@ export function DataTableToolbar<TData>({
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
   const [isPending, startTransition] = React.useTransition()
-
   return (
     <div className="flex w-full items-center justify-between space-x-2 overflow-auto p-1">
       <div className="flex flex-1 items-center space-x-2">

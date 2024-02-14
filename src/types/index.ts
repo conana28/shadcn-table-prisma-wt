@@ -25,3 +25,20 @@ export interface DataTableFilterableColumn<TData>
   extends DataTableSearchableColumn<TData> {
   options: Option[]
 }
+
+export type TB = {
+  id: number
+  vintage: number
+  rack: string
+  shelf: string
+  cost: number
+  consume: Date | null
+  occasion: string | null
+  createdAt: Date
+  updatedAt: Date
+  wineId: number
+  wname: string
+  // producer: string
+  // wineName: string
+  country: string
+}

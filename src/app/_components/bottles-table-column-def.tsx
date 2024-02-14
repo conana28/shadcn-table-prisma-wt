@@ -4,6 +4,7 @@ import { tasks, type Task } from "@/db/schema"
 import type {
   DataTableFilterableColumn,
   DataTableSearchableColumn,
+  TB,
 } from "@/types"
 import { Bottle } from "@prisma/client"
 import {
@@ -266,7 +267,7 @@ import { DataTableColumnHeader } from "@/components/data-table/data-table-column
 export function fetchBottlesTableColumnDefs(
   isPending: boolean,
   startTransition: React.TransitionStartFunction
-): ColumnDef<Bottle, unknown>[] {
+): ColumnDef<TB, unknown>[] {
   return [
     {
       id: "select",
@@ -290,6 +291,25 @@ export function fetchBottlesTableColumnDefs(
           className="translate-y-[2px]"
         />
       ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    // create a colunme with both producer and wineName
+    {
+      id: "wname",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Wine" />
+      ),
+      cell: ({ row }) => <div>{row.original.wname}</div>,
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      accessorKey: "country",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Country" />
+      ),
+      cell: ({ row }) => <div>{row.getValue("country")}</div>,
       enableSorting: false,
       enableHiding: false,
     },
@@ -399,19 +419,33 @@ export function fetchBottlesTableColumnDefs(
   ]
 }
 
-export const filterableColumns: DataTableFilterableColumn<Bottle>[] = [
+export const filterableColumns: DataTableFilterableColumn<TB>[] = [
   {
-    id: "rack",
-    title: "Rack",
+    id: "country",
+    title: "Country",
     options: [
-      { label: "GL1", value: "GL1" },
-      { label: "GF", value: "GF" },
-      { label: "Garage", value: "Garage" },
+      { label: "New Zealand", value: "New Zealand" },
+      { label: "France", value: "France" },
+      { label: "Italy", value: "Italy" },
+      { label: "Spain", value: "Spain" },
+      { label: "Australia", value: "Australia" },
+      { label: "Germany", value: "Germany" },
+      { label: "Greece", value: "Greece" },
+      { label: "Portugal", value: "Portugal" },
+      { label: "Argentina", value: "Argentina" },
+      { label: "USA", value: "USA" },
+      { label: "Chile", value: "Chile" },
+      { label: "South Africa", value: "South Africa" },
+      { label: "Austria", value: "Austria" },
     ],
   },
 ]
 
-export const searchableColumns: DataTableSearchableColumn<Bottle>[] = [
+export const searchableColumns: DataTableSearchableColumn<TB>[] = [
+  {
+    id: "wname",
+    title: "wine",
+  },
   {
     id: "vintage",
     title: "vintage",
