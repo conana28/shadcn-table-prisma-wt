@@ -1,5 +1,6 @@
 "use client"
 
+import { constants } from "crypto"
 import * as React from "react"
 import { TB } from "@/types"
 import { Bottle } from "@prisma/client"
@@ -35,12 +36,17 @@ export function BottlesTable({ bottlesPromise }: TasksTableProps) {
   const [isPending, startTransition] = React.useTransition()
 
   React.useEffect(() => {
-    bottlesPromise.then((data) => {
+    const fetchData = async () => {
+      const data = await bottlesPromise
       if (data) {
         setData(data.newData as TB[])
         setPageCount(data.pageCount)
       }
-    })
+    }
+    // bottlesPromise.then((data) => {
+    // Ignore the Promise returned by fetchData
+    void fetchData()
+    // })
   }, [bottlesPromise])
 
   // Memoize the columns so they don't re-render on every render

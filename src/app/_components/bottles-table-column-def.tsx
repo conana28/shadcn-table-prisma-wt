@@ -1,6 +1,6 @@
 "use client"
 
-import { tasks, type Task } from "@/db/schema"
+// import { tasks, type Task } from "@/db/schema"
 import type {
   DataTableFilterableColumn,
   DataTableSearchableColumn,
