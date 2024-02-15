@@ -17,41 +17,44 @@ import {
   SelectItem,
 } from "@/components/ui/select"
 
-// import {
-//   deleteTask,
-//   updateTaskPriority,
-//   updateTaskStatus,
-// } from "../_lib/actions"
+import {
+  deleteTask,
+  // updateTaskPriority,
+  // updateTaskStatus,
+} from "../_lib/b_actions"
 
-// export function deleteSelectedRows(
-//   table: Table<Task>,
-//   event?: React.MouseEvent<HTMLButtonElement, MouseEvent>
-// ) {
-//   event?.preventDefault()
-//   const selectedRows = table.getFilteredSelectedRowModel().rows as {
-//     original: Task
-//   }[]
+export function deleteSelectedRows(
+  // table: Table<Task>,
+  table: Table<TB>,
+  event?: React.MouseEvent<HTMLButtonElement, MouseEvent>
+) {
+  event?.preventDefault()
+  const selectedRows = table.getFilteredSelectedRowModel().rows as {
+    // original: Task
+    original: TB
+  }[]
 
-//   noStore()
-//   toast.promise(
-//     Promise.all(
-//       selectedRows.map(async (row) =>
-//         deleteTask({
-//           id: row.original.id,
-//         })
-//       )
-//     ),
-//     {
-//       loading: "Deleting...",
-//       success: () => {
-//         return "Tasks deleted successfully."
-//       },
-//       error: (err: unknown) => {
-//         return catchError(err)
-//       },
-//     }
-//   )
-// }
+  noStore()
+  toast.promise(
+    Promise.all(
+      selectedRows.map(async (row) =>
+        deleteTask({
+          id: row.original.id,
+        })
+      )
+    ),
+
+    {
+      loading: "Deleting...",
+      success: () => {
+        return "Tasks deleted successfully."
+      },
+      error: (err: unknown) => {
+        return catchError(err)
+      },
+    }
+  )
+}
 
 // export function updateTasksStatus(table: Table<Task>, status: string) {
 //   const selectedRows = table.getFilteredSelectedRowModel().rows as unknown as {
@@ -170,8 +173,8 @@ export function BottlesTableFloatingBarContent(table: Table<TB>) {
         className="size-7"
         onClick={(event) => {
           table.toggleAllPageRowsSelected(false)
-          console.log("DELETE")
-          // deleteSelectedRows?.({ table, event })
+          // console.log("DELETE")
+          deleteSelectedRows?.(table, event)
         }}
       >
         <TrashIcon className="size-4" aria-hidden="true" />

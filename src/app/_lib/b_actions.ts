@@ -90,11 +90,10 @@ import { createId } from "@/lib/utils"
 //   revalidatePath("/")
 // }
 
-// export async function deleteTask(input: { id: string }) {
-//   await prisma.tasks.delete({ where: { id: input.id } })
+export async function deleteTask(input: { id: number }) {
+  // Delete the task
+  console.log("deleteTaskAction", input)
+  //   await prisma.tasks.delete({ where: { id: input.id } })
 
-//   // Create a new task for the deleted one
-//   // await seedTasks({ count: 1 })
-
-//   revalidatePath("/")
-// }
+  revalidatePath("/")
+}

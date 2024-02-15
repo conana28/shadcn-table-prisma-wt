@@ -10,14 +10,12 @@ import { useDataTable } from "@/hooks/use-data-table"
 import { DataTable } from "@/components/data-table/data-table"
 
 import { type getBottles } from "../_lib/b_queries"
-import { BottlesTableFloatingBarContent } from "./bottles-table-action"
-// import {
-//   deleteSelectedRows,
-//   TasksTableFloatingBarContent,
-// } from "./tasks-table-actions"
+import {
+  BottlesTableFloatingBarContent,
+  deleteSelectedRows,
+} from "./bottles-table-action"
 import {
   fetchBottlesTableColumnDefs,
-  // fetchTasksTableColumnDefs,
   filterableColumns,
   searchableColumns,
 } from "./bottles-table-column-def"
@@ -43,7 +41,6 @@ export function BottlesTable({ bottlesPromise }: TasksTableProps) {
         setPageCount(data.pageCount)
       }
     }
-    // bottlesPromise.then((data) => {
     // Ignore the Promise returned by fetchData
     void fetchData()
     // })
@@ -70,7 +67,7 @@ export function BottlesTable({ bottlesPromise }: TasksTableProps) {
       searchableColumns={searchableColumns}
       filterableColumns={filterableColumns}
       floatingBarContent={BottlesTableFloatingBarContent(dataTable)}
-      // deleteRowsAction={(event) => deleteSelectedRows(dataTable, event)}
+      deleteRowsAction={(event) => deleteSelectedRows(dataTable, event)}
     />
   )
 }
