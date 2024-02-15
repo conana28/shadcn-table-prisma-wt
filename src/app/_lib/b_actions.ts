@@ -94,8 +94,16 @@ import prisma from "@/lib/prisma"
 
 export async function deleteTask(input: { id: number }) {
   // Delete the task
-  console.log("deleteTaskAction", input)
+  console.log("deleteBottleAction", input)
   await prisma.bottle.delete({ where: { id: input.id } })
+
+  revalidatePath("/")
+}
+
+export async function consumeBottle(input: { id: number }) {
+  // Mark bottle as consumed
+  console.log("consumeBottleAction", input)
+  // await prisma.bottle.delete({ where: { id: input.id } })
 
   revalidatePath("/")
 }

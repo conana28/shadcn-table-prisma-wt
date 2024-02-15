@@ -6,6 +6,7 @@ import { Bottle } from "@prisma/client"
 import { ArrowUpIcon, CheckCircledIcon, TrashIcon } from "@radix-ui/react-icons"
 import { SelectTrigger } from "@radix-ui/react-select"
 import { type Table } from "@tanstack/react-table"
+import { PocketKnife } from "lucide-react"
 import { toast } from "sonner"
 
 import { catchError } from "@/lib/catch-error"
@@ -18,10 +19,44 @@ import {
 } from "@/components/ui/select"
 
 import {
+  consumeBottle,
   deleteTask,
   // updateTaskPriority,
   // updateTaskStatus,
 } from "../_lib/b_actions"
+
+export function consumeSelectedRows(
+  // table: Table<Task>,
+  table: Table<TB>,
+  event?: React.MouseEvent<HTMLButtonElement, MouseEvent>
+) {
+  event?.preventDefault()
+  const selectedRows = table.getFilteredSelectedRowModel().rows as {
+    // original: Task
+    original: TB
+  }[]
+
+  noStore()
+  toast.promise(
+    Promise.all(
+      selectedRows.map(async (row) =>
+        consumeBottle({
+          id: row.original.id,
+        })
+      )
+    ),
+
+    {
+      loading: "Consuming...",
+      success: () => {
+        return "Bottles updated successfully."
+      },
+      error: (err: unknown) => {
+        return catchError(err)
+      },
+    }
+  )
+}
 
 export function deleteSelectedRows(
   // table: Table<Task>,
@@ -166,6 +201,21 @@ export function BottlesTableFloatingBarContent(table: Table<TB>) {
           </SelectGroup>
         </SelectContent>
       </Select> */}
+
+      <Button
+        title="Consume"
+        variant="ghost"
+        size="icon"
+        className="size-7"
+        onClick={(event) => {
+          table.toggleAllPageRowsSelected(false)
+          console.log("Consume")
+          consumeSelectedRows?.(table, event)
+        }}
+      >
+        <PocketKnife className="size-4" aria-hidden="true" />
+        <span className="sr-only">Delete</span>
+      </Button>
       <Button
         title="Delete"
         variant="ghost"
