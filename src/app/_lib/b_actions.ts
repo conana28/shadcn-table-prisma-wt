@@ -1,9 +1,10 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
-import { faker } from "@faker-js/faker"
+
+// import { faker } from "@faker-js/faker"
 // import { Label, Priority, Status, tasks } from "@prisma/client"
-import type { z } from "zod"
+// import type { z } from "zod"
 
 // export async function seedTasks({
 //   count = 100,
@@ -41,7 +42,8 @@ import type { z } from "zod"
 // }
 
 import prisma from "@/lib/prisma"
-import { createId } from "@/lib/utils"
+
+// import { createId } from "@/lib/utils"
 
 // import type {
 //   updateTaskLabelSchema,
@@ -93,7 +95,7 @@ import { createId } from "@/lib/utils"
 export async function deleteTask(input: { id: number }) {
   // Delete the task
   console.log("deleteTaskAction", input)
-  //   await prisma.tasks.delete({ where: { id: input.id } })
+  await prisma.bottle.delete({ where: { id: input.id } })
 
   revalidatePath("/")
 }

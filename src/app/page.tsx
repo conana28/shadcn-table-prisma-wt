@@ -7,6 +7,8 @@ import { Shell } from "@/components/shell"
 import { BottlesTable } from "./_components/bottles-table"
 import { getBottles } from "./_lib/b_queries"
 
+export const dynamic = "force-dynamic"
+
 export interface IndexPageProps {
   searchParams: SearchParams
 }
@@ -18,7 +20,7 @@ export default function IndexPage({ searchParams }: IndexPageProps) {
     <Shell>
       <React.Suspense
         fallback={
-          <DataTableSkeleton columnCount={4} filterableColumnCount={2} />
+          <DataTableSkeleton columnCount={6} filterableColumnCount={4} />
         }
       >
         {/**
