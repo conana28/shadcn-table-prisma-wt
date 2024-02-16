@@ -90,7 +90,7 @@ export function BottlesTableFloatingBarContent(table: Table<TB>) {
   })
 
   function onSubmit(data: z.infer<typeof consumeFormSchema>) {
-    console.log("Submit", data)
+    // console.log("Submit", data)
     setOpenDialog(false) // Close the dialog
     table.toggleAllPageRowsSelected(false) // Unselect all rows
     const selectedRows = table.getFilteredSelectedRowModel().rows as {
@@ -100,11 +100,11 @@ export function BottlesTableFloatingBarContent(table: Table<TB>) {
     toast.promise(
       Promise.all(
         selectedRows.map(async (row) => {
-          consumeBottle({
+          await consumeBottle({
             id: row.original.id,
             consumed: data.consumeDate,
           })
-          console.log("consume bottle id: ", row.original.id, data.consumeDate)
+          // console.log("consume bottle id: ", row.original.id, data.consumeDate)
         })
       ),
 
