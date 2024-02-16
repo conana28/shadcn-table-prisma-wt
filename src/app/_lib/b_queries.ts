@@ -21,7 +21,6 @@ type bottlesWhereInput = Prisma.BottleWhereInput
 export async function getBottles(searchParams: SearchParams) {
   console.log("GetBottle searchParams:", searchParams)
   try {
-    // const { page, per_page, sort, title, code, status, priority, operator } =
     const {
       page,
       per_page,
@@ -31,7 +30,7 @@ export async function getBottles(searchParams: SearchParams) {
       rack,
       shelf,
       country,
-      operator,
+      // operator,
     } = searchParamsSchema.parse(searchParams)
 
     console.log("sort:", sort)
@@ -49,9 +48,6 @@ export async function getBottles(searchParams: SearchParams) {
     //   ]) ?? []
     // ]) ?? ["vintage", "asc"]
 
-    // const statuses = (status?.split(".") as Task["status"][]) ?? []
-    // const priorities = (priority?.split(".") as Task["priority"][]) ?? []
-
     function buildWhereClause({
       wname,
       vintage,
@@ -66,6 +62,7 @@ export async function getBottles(searchParams: SearchParams) {
       country?: string
     }): bottlesWhereInput | undefined {
       const conditions: Array<bottlesWhereInput> = []
+      conditions.push({ consume: { equals: null } })
       if (wname) {
         conditions.push({
           wine: {
@@ -86,15 +83,7 @@ export async function getBottles(searchParams: SearchParams) {
           },
         })
       }
-      // if (wname) {
-      //   conditions.push({
-      //     wine: {
-      //       producer: {
-      //         contains: wname,
-      //       },
-      //     },
-      //   })
-      // }
+
       if (vintage) {
         conditions.push({ vintage: { equals: parseInt(vintage) } })
       }
@@ -113,14 +102,9 @@ export async function getBottles(searchParams: SearchParams) {
           },
         })
       }
-      // if (statuses?.length ?? 0 > 0) {
-      //   const statusArray: Status[] = statuses as Status[] // Add type assertion here
-      //   conditions.push({ status: { in: statusArray } })
-      // }
 
       console.log("Conditions", conditions)
-      // Combine conditions with AND / OR if any are present
-      // return conditions.length > 0 ? { OR: conditions } : undefined
+      // Combine conditions with AND  if any are present
       return conditions.length > 0 ? { AND: conditions } : undefined
     }
 
@@ -130,11 +114,7 @@ export async function getBottles(searchParams: SearchParams) {
       rack: rack,
       shelf: shelf,
       country: country,
-      // statuses: statuses,
-      // priorities: priorities,
     })
-
-    // const whereClause = {}
 
     const data = await prisma.bottle.findMany({
       where: whereClause,
@@ -170,8 +150,6 @@ export async function getBottles(searchParams: SearchParams) {
       updatedAt: item.updatedAt,
       wineId: item.wineId,
       wname: item.wine.producer + " " + item.wine.wineName,
-      // producer: item.wine.producer,
-      // wineName: item.wine.wineName,
       country: item.wine.country,
     }))
 

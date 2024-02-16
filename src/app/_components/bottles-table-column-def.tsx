@@ -275,7 +275,7 @@ export function fetchBottlesTableColumnDefs(
         <Checkbox
           checked={table.getIsAllPageRowsSelected()}
           onCheckedChange={(value) => {
-            table.toggleAllPageRowsSelected(!!value)
+            table.toggleAllPageRowsSelected(!!value) // Selects/deselects all rows in the table.
           }}
           aria-label="Select all"
           className="translate-y-[2px]"
@@ -285,7 +285,7 @@ export function fetchBottlesTableColumnDefs(
         <Checkbox
           checked={row.getIsSelected()}
           onCheckedChange={(value) => {
-            row.toggleSelected(!!value)
+            row.toggleSelected(!!value) // Selects/deselects the row.
           }}
           aria-label="Select row"
           className="translate-y-[2px]"
@@ -294,7 +294,7 @@ export function fetchBottlesTableColumnDefs(
       enableSorting: false,
       enableHiding: false,
     },
-    // create a colunme with both producer and wineName
+    // create a column with both producer and wineName
     {
       id: "wname",
       header: ({ column }) => (
