@@ -3,18 +3,8 @@
 import type { SearchParams } from "@/types"
 import type { Prisma } from "@prisma/client"
 
-// import { filterColumn } from "@/lib/filter-column"
 import prisma from "@/lib/prisma"
 import { searchParamsSchema } from "@/lib/validations/params"
-
-// type Task = {
-//   id: string
-//   code: string
-//   title: string
-//   status: "todo" | "in_progress" | "done" | "canceled"
-//   label: "bug" | "feature" | "enhancement" | "documentation"
-//   priority: "low" | "medium" | "high"
-// }
 
 type bottlesWhereInput = Prisma.BottleWhereInput
 
